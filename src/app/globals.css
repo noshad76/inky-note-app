@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* =========================
+   THEME TOKENS
+========================= */
+
+@theme {
+  /* Backgrounds */
+  --color-bg: #f8f8f7; /* Soft warm gray, Notion-like */
+  --color-surface: #ffffff; /* White surfaces */
+  --color-surface-muted: #f3f4f6; /* Subtle muted surfaces */
+
+  /* Borders */
+  --color-border: #e5e5e5; /* Neutral border */
+  --color-border-soft: #efefef; /* Very subtle */
+
+  /* Text Colors */
+  --color-text: #1a1a1a; /* Primary text, not pure black */
+  --color-text-soft: #4a4a4a; /* Secondary text */
+  --color-text-muted: #707070; /* Muted text */
+
+  /* Primary (Notion‑style bluish neutral) */
+  --color-primary: #5e7aff; /* Slightly soft blue */
+  --color-primary-hover: #4b63e6;
+  --color-primary-soft: rgba(94, 122, 255, 0.12);
+
+  /* Accent (Purple but soft, harmonious) */
+  --color-accent: #8b5cf6;
+  --color-accent-soft: rgba(139, 92, 246, 0.12);
+
+  /* Status Colors */
+  --color-success: #16a34a;
+  --color-warning: #ca8a04;
+  --color-danger: #dc2626;
+
+  /* Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* Shadows (Linear/Notion style) */
+  --shadow-xs: 0px 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0px 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0px 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0px 8px 20px rgba(0, 0, 0, 0.12);
+
+  /* Fonts */
+  --font-sans: var(--font-vazir);
+  --font-hand: var(--font-patrick);
+
+  /* Layout */
+  --sidebar-width: 280px;
+  --editor-width: 720px;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+:root.dark {
+  /* Backgrounds */
+  --color-bg: #191919; /* Notion dark base */
+  --color-surface: #1f1f1f; /* Main surfaces */
+  --color-surface-muted: #262626; /* Muted surfaces */
+
+  /* Borders */
+  --color-border: #2e2e2e;
+  --color-border-soft: #3a3a3a;
+
+  /* Text Colors */
+  --color-text: #f5f5f5; /* Main text */
+  --color-text-soft: #d4d4d4; /* Secondary text */
+  --color-text-muted: #a1a1a1; /* Muted text */
+
+  /* Primary (Notion‑style neutral bluish) */
+  --color-primary: #6b8bff; /* Soft blue */
+  --color-primary-hover: #5b7ae6;
+  --color-primary-soft: rgba(107, 139, 255, 0.12);
+
+  /* Accent (purple but softer) */
+  --color-accent: #9f7aea;
+  --color-accent-soft: rgba(159, 122, 234, 0.12);
+
+  /* Status Colors (desaturated for dark mode) */
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-danger: #f87171;
+}
+
+/* =========================
+   BASE
+========================= */
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+}
+
+/* =========================
+   TEXT STYLES
+========================= */
+
+@utility text-display {
+  font-family: var(--font-hand);
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+@utility text-title-1 {
+  font-family: var(--font-hand);
+  font-size: 2rem;
+  line-height: 1.25;
+  font-weight: 400;
+}
+
+@utility text-title-2 {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  line-height: 1.3;
+  font-weight: 400;
+}
+
+@utility text-title-3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+@utility text-body {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+@utility text-body-soft {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-text-soft);
+}
+
+@utility text-muted {
+  color: var(--color-text-muted);
+}
+
+@utility text-caption {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+@utility text-note-title {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  line-height: 1.3;
+}
+
+@utility text-editor {
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+/* =========================
+   SURFACE UTILITIES
+========================= */
+
+@utility surface-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+@utility surface-soft {
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-md);
+}
+
+/* =========================
+   LAYOUT UTILITIES
+========================= */
+
+@utility flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@utility flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@utility container-editor {
+  max-width: var(--editor-width);
+  margin-inline: auto;
+}
+
+@utility sidebar {
+  width: var(--sidebar-width);
+}
+
+/* =========================
+   SCROLL
+========================= */
+
+/* @utility scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+@utility scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+} */
+
+html[dir="rtl"] {
+  font-family: var(--font-vazir);
+}
+
+html[dir="ltr"] {
+  font-family: var(--font-patrick);
+}

@@ -1,0 +1,15 @@
+{
+  "app": {
+    "name": "Inky",
+    "tagline": "Write first. Sync later."
+  },
+  "notes": {
+    "empty": "No notes yet",
+    "new": "New note"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "settings": "Settings"
+  }
+}
