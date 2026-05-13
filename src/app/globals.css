@@ -20,13 +20,13 @@
   --color-text-muted: #707070; /* Muted text */
 
   /* Primary (Notion‑style bluish neutral) */
-  --color-primary: #5e7aff; /* Slightly soft blue */
-  --color-primary-hover: #4b63e6;
-  --color-primary-soft: rgba(94, 122, 255, 0.12);
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-primary-soft: rgba(139, 92, 246, 0.12);
 
-  /* Accent (Purple but soft, harmonious) */
-  --color-accent: #8b5cf6;
-  --color-accent-soft: rgba(139, 92, 246, 0.12);
+  /* Accent = نسخه نرم‌تر، یا یک تون متفاوت */
+  --color-accent: #a78bfa;
+  --color-accent-soft: rgba(167, 139, 250, 0.12);
 
   /* Status Colors */
   --color-success: #16a34a;
@@ -74,14 +74,14 @@
   --color-text-soft: #d4d4d4; /* Secondary text */
   --color-text-muted: #a1a1a1; /* Muted text */
 
-  /* Primary (Notion‑style neutral bluish) */
-  --color-primary: #6b8bff; /* Soft blue */
-  --color-primary-hover: #5b7ae6;
-  --color-primary-soft: rgba(107, 139, 255, 0.12);
+  /* Primary – بنفش برند */
+  --color-primary: #8b5cf6;
+  --color-primary-hover: #7c3aed;
+  --color-primary-soft: rgba(139, 92, 246, 0.14);
 
-  /* Accent (purple but softer) */
-  --color-accent: #9f7aea;
-  --color-accent-soft: rgba(159, 122, 234, 0.12);
+  /* Accent – بنفش نرم‌تر */
+  --color-accent: #a78bfa;
+  --color-accent-soft: rgba(167, 139, 250, 0.14);
 
   /* Status Colors (desaturated for dark mode) */
   --color-success: #4ade80;

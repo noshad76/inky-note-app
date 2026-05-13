@@ -30,6 +30,8 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
+    ,"**/*.d.ts"
+    ,"src/messages/**/*.json.ts"
   ],
   "exclude": [
     "node_modules"
