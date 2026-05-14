@@ -1,15 +1,35 @@
 {
   "app": {
-    "name": "Inky",
-    "tagline": "اول بنویس، بعد سینک کن"
+    "name": "اینکی",
+    "tagline": "اول بنویس، بعداً همگام‌سازی کن"
+  },
+  "header": {
+    "synced": "همگام‌سازی شده",
+    "searchPlaceholder": "جستجوی یادداشت‌ها...",
+    "mobileSearch": "جستجو..."
+  },
+  "sidebar": {
+    "newNote": "یادداشت جدید",
+    "settings": "تنظیمات",
+    "shortcutHint": "⌘N"
   },
   "notes": {
     "empty": "یادداشتی وجود ندارد",
-    "new": "یادداشت جدید"
+    "deleteTitle": "حذف یادداشت",
+    "deleteDescription": "آیا مطمئن هستید؟ این یادداشت به سطل زباله منتقل خواهد شد.",
+    "deleteConfirm": "حذف یادداشت",
+    "cancel": "لغو"
   },
-  "common": {
+  "settings": {
+    "title": "تنظیمات",
+    "theme": "پوسته",
+    "language": "زبان",
+    "displayName": "نام نمایشی",
+    "placeholderName": "نام خود را وارد کنید",
     "save": "ذخیره",
-    "cancel": "لغو",
-    "settings": "تنظیمات"
+    "themes": {
+      "light": "روشن",
+      "dark": "تاریک"
+    }
   }
 }

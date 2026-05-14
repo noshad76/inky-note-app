@@ -17,7 +17,10 @@ export const useNotes = () => {
     notes: notes || [],
     activeNote,
     isLoading: notes === undefined,
-
+    deleteNote: async (id: string) => {
+      await LocalNoteService.deleteNote(id);
+      if (activeNoteId === id) setActiveNoteId(null);
+    },
     createNote: async (userId: string) => {
       const newNote = await LocalNoteService.createNote(userId, "", "");
       setActiveNoteId(newNote.id);

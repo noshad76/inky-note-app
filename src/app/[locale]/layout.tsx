@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Metadata } from "next";
+import { ThemeProvider } from "@/share/components/themeProvider";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -40,9 +41,11 @@ export default async function LocaleLayout({
 
   return (
     <div lang={locale} dir={dir}>
-      <div className="bg-bg">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
-      </div>
+      <ThemeProvider>
+        <div className="bg-bg">
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        </div>
+      </ThemeProvider>
     </div>
   );
 }

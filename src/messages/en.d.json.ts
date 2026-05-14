@@ -6,14 +6,34 @@ declare const messages: {
     "name": "Inky",
     "tagline": "Write first. Sync later."
   },
+  "header": {
+    "synced": "Synced",
+    "searchPlaceholder": "Search notes...",
+    "mobileSearch": "Search..."
+  },
+  "sidebar": {
+    "newNote": "New Note",
+    "settings": "Settings",
+    "shortcutHint": "⌘N"
+  },
   "notes": {
     "empty": "No notes yet",
-    "new": "New note"
+    "deleteTitle": "Delete Note",
+    "deleteDescription": "Are you sure? This note will be moved to trash.",
+    "deleteConfirm": "Delete Note",
+    "cancel": "Cancel"
   },
-  "common": {
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language",
+    "displayName": "Display Name",
+    "placeholderName": "Enter name",
     "save": "Save",
-    "cancel": "Cancel",
-    "settings": "Settings"
+    "themes": {
+      "light": "Light",
+      "dark": "Dark"
+    }
   }
 };
 export default messages;
