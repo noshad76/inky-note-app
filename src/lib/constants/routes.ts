@@ -8,7 +8,7 @@ export const ROUTES = {
 
   NOTES: {
     ROOT: "/notes",
-    DETAIL: (id: string) => `/notes/${id}`,
+    DETAIL: (id: string) => `/notes?id=${id}`,
     SETTINGS: "/notes/setting",
   },
 } as const;

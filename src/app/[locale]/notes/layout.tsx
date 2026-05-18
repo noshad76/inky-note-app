@@ -1,20 +1,22 @@
 "use client";
-import { ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import Header from "@/features/note/components/Header";
+import { ReactNode, Suspense } from "react"; // اضافه کردن Suspense
+import dynamic from "next/dynamic";
+const Header = dynamic(() => import("@/features/note/components/Header"), {
+  ssr: false,
+});
+
 import SidebarList from "@/features/note/components/SidebarList";
 import { cn } from "@/lib/utils/cn";
+import { useSearchParams } from "next/navigation";
 
-export default function NotesLayout({ children }: { children: ReactNode }) {
-  const pathname = usePathname();
-
-  // بررسی اینکه آیا در صفحه ویرایش هستیم یا لیست
-  const isEditing = pathname.split("/").length > 3;
+// ایجاد یک کامپوننت داخلی برای استفاده از searchParams
+function NotesLayoutContent({ children }: { children: ReactNode }) {
+  const searchParams = useSearchParams();
+  const isEditing = !!searchParams.get("id");
 
   return (
     <div className="flex h-screen flex-col bg-bg text-text transition-colors duration-300">
       <Header />
-
       <div className="flex flex-1 overflow-hidden p-0 md:p-4 gap-0 md:gap-5">
         <aside
           className={cn(
@@ -39,5 +41,14 @@ export default function NotesLayout({ children }: { children: ReactNode }) {
         </main>
       </div>
     </div>
+  );
+}
+
+// کامپوننت اصلی که Suspense را فراهم می‌کند
+export default function NotesLayout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<div className="h-screen bg-bg" />}>
+      <NotesLayoutContent>{children}</NotesLayoutContent>
+    </Suspense>
   );
 }

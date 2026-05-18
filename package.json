@@ -7,13 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
   },
   "dependencies": {
     "@ark-ui/react": "^5.36.2",
     "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.100.10",
+    "@tauri-apps/api": "^2.11.0",
     "@tiptap/extension-blockquote": "^3.23.4",
     "@tiptap/extension-bubble-menu": "^3.23.4",
     "@tiptap/extension-bullet-list": "^3.23.4",
@@ -69,13 +72,11 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@tailwindcss/postcss": "^4",
+    "@tauri-apps/cli": "^2.11.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
-    "electron": "^42.1.0",
-    "electron-builder": "^26.8.1",
-    "electron-serve": "^3.0.1",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",

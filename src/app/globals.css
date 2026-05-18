@@ -75,15 +75,23 @@
     font-family: var(--font-patrick), var(--font-vazir) !important;
     background-color: var(--bg);
     color: var(--text);
+    @apply select-none cursor-default;
     transition:
       background-color 0.3s ease,
       color 0.3s ease,
       border-color 0.3s ease;
   }
-
+  .prose,
+  input,
+  textarea {
+    @apply select-text cursor-auto;
+  }
   * {
     border-color: var(--border);
   }
+}
+
+[data-tauri-drag-region] {
 }
 
 @utility text-display {

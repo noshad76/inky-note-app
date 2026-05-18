@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { useParams } from "next/navigation";
 import { debounce } from "lodash-es";
 import Editor from "@/features/note/editor/Editor";
 import EditorTitle from "@/features/note/editor/EditorTitle";
@@ -9,9 +8,7 @@ import { useNotes } from "@/features/note/hooks/useNotes";
 import { useSyncNotes } from "@/features/note/hooks/useSyncNotes";
 import { scheduleSync } from "@/features/note/utils/syncScheduler";
 
-export default function Page() {
-  const params = useParams();
-  const noteId = params.id as string;
+export default function Page({ noteId }: { noteId: string }) {
   const { activeNote, updateActiveNote, isLoading, selectNote } = useNotes();
   const { triggerSync } = useSyncNotes();
   useEffect(() => {
@@ -19,7 +16,9 @@ export default function Page() {
       selectNote(noteId);
     }
   }, [noteId, selectNote]);
-
+  if (!noteId || noteId === "index") {
+    return <div></div>;
+  }
   const [noteData, setNoteData] = useState<{ title: string; content: any }>({
     title: "",
     content: null,
