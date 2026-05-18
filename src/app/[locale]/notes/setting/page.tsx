@@ -44,15 +44,11 @@ export default function SettingsPage() {
       </h2>
 
       <div className="space-y-1 bg-surface/30 p-6 rounded-3xl border border-border-soft/20 shadow-sm">
-        
-        {/* Theme Selection */}
         <Section title={t("theme")}>
           <div className="flex rounded-xl border border-border-soft bg-surface p-1 shadow-sm">
             {(["light", "dark"] as const).map((tKey) => {
-              // در سرور هیچ دکمه‌ای فعال نشان داده نمی‌شود تا Mismatch رخ ندهد
-              // بعد از Mount شدن در کلاینت، دکمه درست هایلایت می‌شود
               const isActive = mounted && theme === tKey;
-              
+
               return (
                 <button
                   key={tKey}
@@ -62,7 +58,7 @@ export default function SettingsPage() {
                     "px-6 py-2 text-[11px] font-black rounded-lg transition-all uppercase tracking-wider",
                     isActive
                       ? "bg-primary text-white shadow-md shadow-primary/20"
-                      : "text-text-muted hover:text-text hover:bg-surface-muted"
+                      : "text-text-muted hover:text-text hover:bg-surface-muted",
                   )}
                 >
                   {tKey === "light" ? t("themes.light") : t("themes.dark")}
@@ -72,7 +68,6 @@ export default function SettingsPage() {
           </div>
         </Section>
 
-        {/* Language Selection */}
         <Section title={t("language")}>
           <div className="flex rounded-xl border border-border-soft bg-surface p-1 shadow-sm">
             {[
@@ -86,7 +81,7 @@ export default function SettingsPage() {
                   "px-6 py-2 text-[11px] font-black rounded-lg transition-all",
                   locale === lang.code
                     ? "bg-primary text-white shadow-md shadow-primary/20"
-                    : "text-text-muted hover:text-text hover:bg-surface-muted"
+                    : "text-text-muted hover:text-text hover:bg-surface-muted",
                 )}
               >
                 {lang.label}
@@ -95,24 +90,7 @@ export default function SettingsPage() {
           </div>
         </Section>
 
-        {/* Display Name Setting */}
-        <Section title={t("displayName")}>
-          <div className="flex items-center gap-2 w-full md:w-auto">
-            <input
-              type="text"
-              placeholder={t("placeholderName")}
-              dir={locale === "fa" ? "rtl" : "ltr"}
-              className={cn(
-                "h-11 w-full md:w-64 rounded-xl border border-border-soft bg-surface px-4 text-xs font-bold outline-none transition-all shadow-sm",
-                "focus:border-primary focus:ring-4 focus:ring-primary/5 placeholder:text-text-muted/50"
-              )}
-            />
-            <button className="h-11 rounded-xl bg-primary px-6 text-[11px] font-black text-white shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all whitespace-nowrap">
-              {t("save")}
-            </button>
-          </div>
-        </Section>
-
+       
       </div>
     </div>
   );

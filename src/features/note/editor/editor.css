@@ -1,0 +1,601 @@
+/* =============================================================
+   Editor Container
+   ============================================================= */
+
+.editor-container {
+  @apply container-editor;
+}
+
+.editor-surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =============================================================
+   Title
+   ============================================================= */
+
+.editor-title {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  direction: auto;
+  unicode-bidi: plaintext;
+  text-align: start;
+  font-family: var(--font-hand);
+  font-size: 2.2rem;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.editor-title::placeholder {
+  color: var(--text-muted);
+}
+
+/* =============================================================
+   ProseMirror Base
+   ============================================================= */
+
+.ProseMirror {
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--text);
+  padding-bottom: 80px !important;
+
+  /* حذف inherit های قبلی */
+  direction: ltr; /* مقدار پیش‌فرض ادیتور لزوماً LTR باشد */
+  text-align: start;
+}
+
+/* این بخش که باعث خراب شدن کار می‌شد را اصلاح کردیم */
+.ProseMirror > * {
+  /* اجازه بدهید هر پاراگراف جهت خودش را داشته باشد */
+  direction: auto;
+  text-align: start;
+  unicode-bidi: plaintext; /* این خط جادوی حل مشکل متن‌های ترکیبی است */
+}
+
+/* بلوک کد همیشه باید چپ‌چین بماند */
+.ProseMirror pre {
+  direction: ltr !important;
+  text-align: left !important;
+  unicode-bidi: normal;
+}
+
+/* =============================================================
+   Headings
+   ============================================================= */
+
+.ProseMirror h1 {
+  font-family: var(--font-hand);
+  font-size: 2rem;
+  margin: 1.2rem 0 0.6rem;
+}
+
+.ProseMirror h2 {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.9rem 0 0.4rem;
+}
+
+/* =============================================================
+   Lists
+   ============================================================= */
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-inline-start: 1.5rem;
+  margin: 0.75rem 0;
+}
+.ProseMirror li {
+  direction: inherit;
+  text-align: inherit;
+}
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.ProseMirror li {
+  margin: 0.25rem 0;
+}
+
+.ProseMirror li p {
+  margin: 0;
+}
+
+.ProseMirror ul li::marker,
+.ProseMirror ol li::marker {
+  color: var(--text-soft);
+}
+.ProseMirror ul ul {
+  list-style-type: circle;
+}
+
+.ProseMirror ul ul ul {
+  list-style-type: square;
+}
+
+.ProseMirror ol ol {
+  list-style-type: lower-alpha;
+}
+
+.ProseMirror ol ol ol {
+  list-style-type: lower-roman;
+}
+/* =============================================================
+   Task List
+   ============================================================= */
+.ProseMirror .task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ProseMirror .task-list > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 6px 0;
+}
+.ProseMirror ul[data-type="taskList"] {
+  padding-inline-start: 0;
+}
+
+.ProseMirror ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+
+  direction: inherit;
+}
+.ProseMirror ul[data-type="taskList"] li > label {
+  flex: 0 0 auto;
+}
+
+.ProseMirror ul[data-type="taskList"] li > div {
+  flex: 1;
+}
+.ProseMirror .task-list input[type="checkbox"] {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+.ProseMirror .task-list > li p {
+  margin: 0;
+}
+.ProseMirror .task-list li[data-state="checked"] p,
+.ProseMirror .task-list li.is-checked p,
+.ProseMirror .task-list li .line-through {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+/* =============================================================
+   Blockquote
+   ============================================================= */
+
+.ProseMirror blockquote {
+  padding: 0.8rem 1rem;
+  margin: 1.4rem 0;
+
+  border-inline-start: 4px solid var(--primary);
+  background: var(--surface-muted);
+  border-radius: var(--radius-sm);
+
+  direction: inherit;
+}
+
+/* =============================================================
+   Code
+   ============================================================= */
+
+/* Code Block */
+
+.ProseMirror pre {
+  background: #0f172a;
+  color: #e2e8f0;
+
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-md);
+
+  overflow-x: auto;
+
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  margin: 1rem 0;
+}
+
+.ProseMirror pre code {
+  background: transparent;
+  padding: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* highlight.js tokens */
+
+.hljs-keyword {
+  color: #c792ea;
+}
+
+.hljs-string {
+  color: #ecc48d;
+}
+
+.hljs-number {
+  color: #f78c6c;
+}
+
+.hljs-title {
+  color: #82aaff;
+}
+
+.hljs-comment {
+  color: #637777;
+  font-style: italic;
+}
+
+.hljs-variable {
+  color: #f07178;
+}
+
+/* =============================================================
+   Divider
+   ============================================================= */
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
+}
+
+/* =============================================================
+   Links
+   ============================================================= */
+
+.ProseMirror a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.ProseMirror a:hover {
+  color: var(--accent);
+}
+
+/* =============================================================
+   Highlight
+   ============================================================= */
+
+mark {
+  background: var(--accent-soft);
+  color: var(--text-soft);
+  padding: 0.1rem 0.25rem;
+  border-radius: var(--radius-xs);
+}
+
+/* =============================================================
+   Placeholder
+   ============================================================= */
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: inline-block;
+}
+
+/* =============================================================
+   Callout Block
+   ============================================================= */
+
+.callout {
+  display: flex;
+  gap: 0.7rem;
+
+  background: var(--surface-muted);
+  border: 1px solid var(--border-soft);
+
+  border-radius: var(--radius-md);
+
+  padding: 0.8rem 0.9rem;
+  margin: 0.8rem 0;
+}
+
+.callout-emoji {
+  font-size: 1.2rem;
+}
+
+.callout-content {
+  flex: 1;
+}
+
+/* =============================================================
+   Bubble Menu
+   ============================================================= */
+
+.bubble-menu {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+
+  box-shadow: var(--shadow-md);
+
+  padding: 0.3rem;
+  display: flex;
+  gap: 0.2rem;
+}
+
+.bubble-btn {
+  padding: 0.3rem 0.45rem;
+  border-radius: var(--radius-xs);
+  color: var(--text-soft);
+}
+
+.bubble-btn:hover {
+  background: var(--surface-muted);
+}
+
+.bubble-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* =============================================================
+   Desktop Toolbar
+   ============================================================= */
+
+.editor-toolbar {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+
+.editor-btn {
+  padding: 0.35rem 0.55rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-soft);
+}
+
+.editor-btn:hover {
+  background: var(--surface-muted);
+}
+
+.editor-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* =============================================================
+   Mobile Toolbar
+   ============================================================= */
+
+.mobile-toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap; /* جلوگیری از شکستن خط */
+  align-items: center;
+  gap: 0.2rem;
+  overflow-x: auto; /* اسکرول افقی */
+  -webkit-overflow-scrolling: touch;
+  z-index: 100;
+  scrollbar-width: none; /* مخفی کردن اسکرول‌بار در فایرفاکس */
+}
+
+.mobile-toolbar::-webkit-scrollbar {
+  display: none; /* مخفی کردن اسکرول‌بار در کروم و سافاری */
+}
+
+.mobile-btn {
+  flex: 0 0 auto; /* جلوگیری از کوچک شدن دکمه‌ها */
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.mobile-btn:active {
+  background: var(--surface-muted);
+}
+
+.mobile-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* =============================================================
+   Slash Menu
+   ============================================================= */
+
+.slash-menu {
+  background: var(--surface);
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+
+  padding: 0.3rem;
+
+  width: 220px;
+}
+
+.slash-item {
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.slash-item:hover {
+  background: var(--surface-muted);
+}
+
+.slash-item.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.editor-toolbar {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.4rem;
+
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-btn {
+  padding: 0.35rem 0.55rem;
+  border-radius: var(--radius-sm);
+
+  color: var(--text-soft);
+}
+
+.editor-btn:hover {
+  background: var(--surface-muted);
+}
+
+.editor-btn.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.ProseMirror [dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+.ProseMirror [dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+/* =============================================================
+   Tables (Mobile Responsive)
+   ============================================================= */
+.tableWrapper {
+  overflow-x: auto;
+  margin: 1rem 0;
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  /* نمایش سایه ملایم وقتی اسکرول فعال می‌شود */
+  background:
+    linear-gradient(to right, var(--surface) 30%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), var(--surface) 70%) 100% 0,
+    radial-gradient(
+      farthest-side at 0 50%,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0)
+    ),
+    radial-gradient(
+        farthest-side at 100% 50%,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      )
+      100% 0;
+  background-repeat: no-repeat;
+  background-size:
+    40px 100%,
+    40px 100%,
+    14px 100%,
+    14px 100%;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  /* تغییر مهم: اجازه بده محتوا عرض ستون را تعیین کند */
+  table-layout: auto !important;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.ProseMirror td,
+.ProseMirror th {
+  /* حذف محدودیت عرض */
+  min-width: 50px;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  /* جلوگیری از شکستن کلمات و ایجاد فضای خالی عمودی */
+  white-space: nowrap;
+}
+
+/* وقتی داخل سلول پاراگراف هست، فاصله اضافه نگیرد */
+.ProseMirror td p,
+.ProseMirror th p {
+  margin: 0;
+  white-space: normal; /* محتوای متنی داخل سلول بشکند اما خود سلول نه */
+}
+
+.ProseMirror th {
+  font-weight: bold;
+  background: var(--surface-muted);
+  text-align: inherit;
+}
+
+/* موبایل: غیرفعال کردن Resizer چون در موبایل باعث خرابی چیدمان می‌شود */
+@media (max-width: 768px) {
+  .ProseMirror .column-resize-handle {
+    display: none !important;
+  }
+
+  .ProseMirror table {
+    /* در موبایل اجازه بده جدول از عرض صفحه بیشتر شود تا محتوا له نشود */
+    width: auto;
+    min-width: 100%;
+  }
+
+  .ProseMirror td,
+  .ProseMirror th {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+}
+
+/* استایل انتخاب سلول */
+.ProseMirror .selectedCell:after {
+  z-index: 2;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--primary-rgb), 0.1);
+  pointer-events: none;
+}
+
+.ProseMirror .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--primary);
+  pointer-events: none;
+}

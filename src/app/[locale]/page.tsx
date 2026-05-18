@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export default async function Page({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
 
-  redirect(ROUTES.NOTES(locale));
+  redirect(locale + "/" + ROUTES.NOTES.ROOT);
   // setRequestLocale(locale as Locale);
 
   // const t = await getTranslations("app");

@@ -1,24 +1,89 @@
-export default function NoteEditorPage() {
+"use client";
+
+import { useEffect, useState, useMemo, useCallback } from "react";
+import { useParams } from "next/navigation";
+import { debounce } from "lodash-es";
+import Editor from "@/features/note/editor/Editor";
+import EditorTitle from "@/features/note/editor/EditorTitle";
+import { useNotes } from "@/features/note/hooks/useNotes";
+import { useSyncNotes } from "@/features/note/hooks/useSyncNotes";
+import { scheduleSync } from "@/features/note/utils/syncScheduler";
+
+export default function Page() {
+  const params = useParams();
+  const noteId = params.id as string;
+  const { activeNote, updateActiveNote, isLoading, selectNote } = useNotes();
+  const { triggerSync } = useSyncNotes();
+  useEffect(() => {
+    if (noteId) {
+      selectNote(noteId);
+    }
+  }, [noteId, selectNote]);
+
+  const [noteData, setNoteData] = useState<{ title: string; content: any }>({
+    title: "",
+    content: null,
+  });
+
+  useEffect(() => {
+    if (activeNote && activeNote.id === noteId) {
+      setNoteData({
+        title: activeNote.title || "",
+        content: activeNote.content,
+      });
+    }
+  }, [activeNote, noteId]);
+
+  const debouncedSave = useMemo(
+    () =>
+      debounce(
+        async (id: string, updates: { title?: string; content?: string }) => {
+          if (!id) return;
+          await updateActiveNote(updates);
+          scheduleSync(triggerSync);
+          console.log("Saved to DB ✅");
+        },
+        1000,
+      ),
+    [updateActiveNote],
+  );
+
+  const handleTitleChange = useCallback(
+    (newTitle: string) => {
+      setNoteData((prev) => ({ ...prev, title: newTitle }));
+      debouncedSave(noteId, { title: newTitle });
+    },
+    [debouncedSave, noteId],
+  );
+
+  const handleContentChange = useCallback(
+    (newContent: any) => {
+      setNoteData((prev) => ({ ...prev, content: newContent }));
+      debouncedSave(noteId, { content: newContent });
+    },
+    [debouncedSave, noteId],
+  );
+
+  if (isLoading || (activeNote && activeNote.id !== noteId)) {
+    return <div className="h-full w-full bg-transparent" />;
+  }
+
+  if (!activeNote && !isLoading) {
+    return (
+      <div className="p-10 text-center text-muted-foreground">
+        یادداشت مورد نظر یافت نشد.
+      </div>
+    );
+  }
+
   return (
-    <div className="flex h-full flex-col">
-      {/* Subject Area */}
-      <div className="p-6 border-b border-neutral-100 dark:border-neutral-800">
-        <input
-          type="text"
-          placeholder="Note Subject..."
-          className="w-full text-3xl font-bold focus:outline-none bg-transparent"
-        />
-      </div>
+    <div className="flex flex-col h-full min-h-0 pt-10">
+      <div key={noteId} className="flex flex-col h-full">
+        <EditorTitle value={noteData.title} onChange={handleTitleChange} />
 
-      {/* Controllers (Toolbar) */}
-      <div className="px-6 py-2 bg-neutral-50 dark:bg-neutral-800/50 flex gap-2">
-        {/* دکمه‌های Bold, Italic, ... */}
-        <div className="h-8 w-full bg-neutral-200/50 rounded animate-pulse" />
-      </div>
-
-      {/* Editor Content Area */}
-      <div className="flex-1 p-6 overflow-y-auto">
-        <div className="min-h-full outline-none" contentEditable />
+        <div className="flex-1 min-h-0">
+          <Editor content={noteData.content} onChange={handleContentChange} />
+        </div>
       </div>
     </div>
   );

@@ -1,35 +1,116 @@
 {
   "app": {
     "name": "اینکی",
-    "tagline": "اول بنویس، بعداً همگام‌سازی کن"
+    "tagline": "اول بنویس. بعداً سینک می‌کنیم."
   },
   "header": {
-    "synced": "همگام‌سازی شده",
-    "searchPlaceholder": "جستجوی یادداشت‌ها...",
-    "mobileSearch": "جستجو..."
+    "synced": "سینک شد",
+    "sync": "سینک",
+    "syncing": "در حال سینک...",
+    "syncError": "سینک نشد",
+    "searchPlaceholder": "یه یادداشت پیدا کن...",
+    "mobileSearch": "جستجو...",
+    "cancel": "بیخیال"
   },
   "sidebar": {
     "newNote": "یادداشت جدید",
     "settings": "تنظیمات",
-    "shortcutHint": "⌘N"
+    "shortcutHint": "⌘B",
+    "noNotes": "چیزی اینجا نیست"
   },
   "notes": {
-    "empty": "یادداشتی وجود ندارد",
+    "emptyState": {
+      "title": "هیچ یادداشتی باز نیست",
+      "description": "از لیست یه یادداشت انتخاب کن یا یه یادداشت جدید بساز.",
+      "button": "یادداشت جدید"
+    },
+    "empty": "هنوز چیزی ننوشتی",
     "deleteTitle": "حذف یادداشت",
-    "deleteDescription": "آیا مطمئن هستید؟ این یادداشت به سطل زباله منتقل خواهد شد.",
-    "deleteConfirm": "حذف یادداشت",
-    "cancel": "لغو"
+    "deleteDescription": "اگر حذفش کنی میره توی سطل زباله.",
+    "deleteConfirm": "حذف کن",
+    "cancel": "بیخیال"
   },
   "settings": {
     "title": "تنظیمات",
-    "theme": "پوسته",
+    "theme": "ظاهر",
     "language": "زبان",
     "displayName": "نام نمایشی",
-    "placeholderName": "نام خود را وارد کنید",
+    "placeholderName": "اسمت...",
     "save": "ذخیره",
     "themes": {
       "light": "روشن",
       "dark": "تاریک"
     }
+  },
+  "editor": {
+    "ContentPlaceholder": "بنویس...",
+    "TitlePlaceholder": "عنوان...",
+    "toolbar": {
+      "undo": "برگرد",
+      "redo": "دوباره",
+      "bold": "پررنگ",
+      "italic": "مورب",
+      "underline": "زیرخط",
+      "highlight": "هایلایت",
+      "h1": "تیتر بزرگ",
+      "h2": "تیتر",
+      "bulletList": "لیست",
+      "orderedList": "لیست شماره‌دار",
+      "taskList": "چک‌لیست",
+      "codeBlock": "کد",
+      "horizontalRule": "جداکننده",
+      "blockquote": "نقل قول",
+      "alignLeft": "چپ",
+      "alignCenter": "وسط",
+      "alignRight": "راست",
+      "rtl": "راست‌به‌چپ",
+      "ltr": "چپ‌به‌راست",
+      "insertTable": "درج جدول",
+      "addColumn": "افزودن ستون",
+      "addRow": "افزودن سطر",
+      "deleteTable": "حذف جدول",
+      "mergeCells": "ادغام سلول‌ها"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "ورود",
+      "subtitle": "برو سراغ یادداشت‌هات",
+      "emailLabel": "ایمیل",
+      "passwordLabel": "رمز عبور",
+      "submit": "وارد شو",
+      "submitting": "در حال بررسی...",
+      "noAccount": "حساب نداری؟",
+      "createAccount": "یه حساب بساز",
+      "success": "وارد شدی",
+      "successMessage": "همه‌چیز آماده است.",
+      "error": "ورود نشد"
+    },
+    "signup": {
+      "title": "ساخت حساب",
+      "subtitle": "یه حساب بساز تا یادداشت‌هات همیشه دم دستت باشن",
+      "nameLabel": "نام",
+      "emailLabel": "ایمیل",
+      "passwordLabel": "رمز عبور",
+      "confirmPasswordLabel": "تکرار رمز",
+      "submit": "ساخت حساب",
+      "submitting": "در حال ساخت...",
+      "haveAccount": "قبلاً حساب ساختی؟",
+      "signIn": "وارد شو",
+      "success": "حساب ساخته شد",
+      "successMessage": "شروع کن بنویس.",
+      "error": "ثبت‌نام نشد"
+    },
+    "errors": {
+      "defaultLogin": "ایمیل یا رمز اشتباه است.",
+      "defaultSignup": "ثبت‌نام انجام نشد."
+    }
+  },
+  "microcopy": {
+    "loadingNotes": "در حال بارگذاری...",
+    "savingNote": "در حال ذخیره...",
+    "syncPreparing": "در حال سینک...",
+    "searchEmpty": "چیزی پیدا نشد",
+    "firstNoteHint": "از یه جمله شروع کن"
   }
 }

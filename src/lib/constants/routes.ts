@@ -1,7 +1,16 @@
 export const ROUTES = {
-  HOME: (locale: string) => `/${locale}`,
-  NOTES: (locale: string) => `/${locale}/notes`,
-  SETTINGS: (locale: string) => `/${locale}/settings`,
+  HOME: "/",
+
+  AUTH: {
+    LOGIN: "/auth/login",
+    SIGNUP: "/auth/signup",
+  },
+
+  NOTES: {
+    ROOT: "/notes",
+    DETAIL: (id: string) => `/notes/${id}`,
+    SETTINGS: "/notes/setting",
+  },
 } as const;
 
 export type AppRoutes = typeof ROUTES;

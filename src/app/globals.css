@@ -1,27 +1,23 @@
 @import "tailwindcss";
+@import "../features/note/editor/editor.css";
 
-/* =============================================================
-   1. متغیرهای خام (CSS Variables) - مدیریت تغییر رنگ لایت/دارک
-   ============================================================= */
 :root {
-  /* مقادیر لایت */
-  --bg: #fbfbfa;
+  --bg: #f8f8f7;
   --surface: #ffffff;
-  --surface-muted: #f6f6f5;
-  --border: #ebebeb;
-  --border-soft: #f1f1ef;
-  --text: #1a1a1b;
-  --text-soft: #454545;
-  --text-muted: #838382;
-  --primary: #7c3aed;
-  --primary-soft: rgba(124, 58, 237, 0.08);
-  --accent: #a78bfa;
-  --accent-soft: rgba(167, 139, 250, 0.1);
-  --ring: rgba(124, 58, 237, 0.2);
+  --surface-muted: #f1f1ef;
+  --border: #dcdcdc;
+  --border-soft: #e8e8e6;
+  --text: #121212;
+  --text-soft: #383838;
+  --text-muted: #6a6a69;
+  --primary: #6d28d9;
+  --primary-soft: rgba(109, 40, 217, 0.1);
+  --accent: #7c3aed;
+  --accent-soft: rgba(124, 58, 237, 0.08);
+  --ring: rgba(109, 40, 217, 0.25);
 }
 
 .dark {
-  /* مقادیر دارک */
   --bg: #191919;
   --surface: #1f1f1f;
   --surface-muted: #262626;
@@ -37,11 +33,7 @@
   --ring: rgba(139, 92, 246, 0.3);
 }
 
-/* =============================================================
-   2. تعریف تم Tailwind (Theme Tokens)
-   ============================================================= */
 @theme {
-  /* اتصال رنگ‌ها به متغیرهای بالا */
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
@@ -56,39 +48,31 @@
   --color-accent-soft: var(--accent-soft);
   --color-ring: var(--ring);
 
-  /* وضعیت‌های ثابت */
   --color-success: #22c55e;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
 
-  /* شعاع لبه‌ها (Radius) */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
 
-  /* سایه‌ها (Shadows) */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.07);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1);
 
-  /* فونت‌ها */
-  --font-sans: var(--font-vazir);
-  --font-hand: var(--font-patrick);
-
-  /* ابعاد چیدمان */
+  --font-sans: var(--font-patrick), var(--font-vazir), ui-sans-serif, system-ui;
+  --font-hand: var(--font-patrick), var(--font-vazir), cursive;
+  --font-editor: var(--font-patrick), var(--font-vazir);
   --sidebar-width: 280px;
   --editor-width: 720px;
 }
 
-/* =============================================================
-   3. استایل‌های پایه (Base Styles)
-   ============================================================= */
 @layer base {
   body {
-    font-family: var(--font-sans);
+    font-family: var(--font-patrick), var(--font-vazir) !important;
     background-color: var(--bg);
     color: var(--text);
     transition:
@@ -102,9 +86,6 @@
   }
 }
 
-/* =============================================================
-   4. یوتیلیتی‌های سفارشی (Custom Utilities)
-   ============================================================= */
 @utility text-display {
   font-family: var(--font-hand);
   font-size: 2.5rem;
@@ -188,7 +169,6 @@
 }
 
 @utility container-editor {
-  max-width: var(--editor-width);
   margin-inline: auto;
 }
 
@@ -196,13 +176,45 @@
   width: var(--sidebar-width);
 }
 
-/* =============================================================
-   5. تنظیمات جهت متن و فونت (RTL/LTR)
-   ============================================================= */
 html[dir="rtl"] {
   font-family: var(--font-vazir);
 }
 
 html[dir="ltr"] {
   font-family: var(--font-patrick);
+}
+
+:lang(en) {
+  font-family: var(--font-patrick), var(--font-vazir), cursive;
+}
+
+:lang(fa) {
+  font-family: var(--font-vazir), var(--font-patrick), sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }

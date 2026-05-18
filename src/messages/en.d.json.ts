@@ -4,36 +4,117 @@
 declare const messages: {
   "app": {
     "name": "Inky",
-    "tagline": "Write first. Sync later."
+    "tagline": "Write now. Sync later."
   },
   "header": {
     "synced": "Synced",
-    "searchPlaceholder": "Search notes...",
-    "mobileSearch": "Search..."
+    "sync": "Sync",
+    "syncing": "Syncing...",
+    "syncError": "Sync failed",
+    "searchPlaceholder": "Find a note...",
+    "mobileSearch": "Search...",
+    "cancel": "Cancel"
   },
   "sidebar": {
-    "newNote": "New Note",
+    "newNote": "New note",
     "settings": "Settings",
-    "shortcutHint": "⌘N"
+    "shortcutHint": "⌘B",
+    "noNotes": "Nothing here yet"
   },
   "notes": {
-    "empty": "No notes yet",
-    "deleteTitle": "Delete Note",
-    "deleteDescription": "Are you sure? This note will be moved to trash.",
-    "deleteConfirm": "Delete Note",
+    "emptyState": {
+      "title": "No note open",
+      "description": "Pick a note from the list or create a new one.",
+      "button": "New note"
+    },
+    "empty": "You haven't written anything yet",
+    "deleteTitle": "Delete note",
+    "deleteDescription": "This note will move to trash.",
+    "deleteConfirm": "Delete",
     "cancel": "Cancel"
   },
   "settings": {
     "title": "Settings",
-    "theme": "Theme",
+    "theme": "Appearance",
     "language": "Language",
-    "displayName": "Display Name",
-    "placeholderName": "Enter name",
+    "displayName": "Display name",
+    "placeholderName": "Your name...",
     "save": "Save",
     "themes": {
       "light": "Light",
       "dark": "Dark"
     }
+  },
+  "editor": {
+    "ContentPlaceholder": "Start typing...",
+    "TitlePlaceholder": "Title...",
+    "toolbar": {
+      "undo": "Undo",
+      "redo": "Redo",
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "highlight": "Highlight",
+      "h1": "Heading 1",
+      "h2": "Heading 2",
+      "bulletList": "Bulleted list",
+      "orderedList": "Numbered list",
+      "taskList": "Checklist",
+      "codeBlock": "Code block",
+      "horizontalRule": "Divider",
+      "blockquote": "Quote",
+      "alignLeft": "Align left",
+      "alignCenter": "Align center",
+      "alignRight": "Align right",
+      "rtl": "Right to left",
+      "ltr": "Left to right",
+      "insertTable": "Insert table",
+      "addColumn": "Add column",
+      "addRow": "Add row",
+      "deleteTable": "Delete table",
+      "mergeCells": "Merge cells"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "subtitle": "Get back to your notes.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "submitting": "Checking...",
+      "noAccount": "No account yet?",
+      "createAccount": "Create one",
+      "success": "You're in",
+      "successMessage": "Everything's ready.",
+      "error": "Login failed"
+    },
+    "signup": {
+      "title": "Create account",
+      "subtitle": "Make an account to keep your notes with you.",
+      "nameLabel": "Name",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm password",
+      "submit": "Create account",
+      "submitting": "Creating...",
+      "haveAccount": "Already have an account?",
+      "signIn": "Log in",
+      "success": "Account created",
+      "successMessage": "You're ready to write.",
+      "error": "Signup failed"
+    },
+    "errors": {
+      "defaultLogin": "Email or password is wrong.",
+      "defaultSignup": "Couldn't create the account."
+    }
+  },
+  "microcopy": {
+    "loadingNotes": "Loading...",
+    "savingNote": "Saving...",
+    "syncPreparing": "Syncing...",
+    "searchEmpty": "No results",
+    "firstNoteHint": "Start with one sentence"
   }
 };
 export default messages;
