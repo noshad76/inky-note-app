@@ -141,52 +141,79 @@
 /* =============================================================
    Task List
    ============================================================= */
-.ProseMirror .task-list {
+/* =============================================================
+   Task List
+   ============================================================= */
+.ProseMirror ul[data-type="taskList"] {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.ProseMirror .task-list > li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin: 6px 0;
-}
-.ProseMirror ul[data-type="taskList"] {
-  padding-inline-start: 0;
-}
-
 .ProseMirror ul[data-type="taskList"] li {
   display: flex;
   align-items: flex-start;
-  gap: 0.6rem;
-
-  direction: inherit;
-}
-.ProseMirror ul[data-type="taskList"] li > label {
-  flex: 0 0 auto;
+  gap: 0.8rem;
+  margin: 0.5rem 0;
 }
 
-.ProseMirror ul[data-type="taskList"] li > div {
-  flex: 1;
-}
-.ProseMirror .task-list input[type="checkbox"] {
-  margin-top: 3px;
-  width: 18px;
-  height: 18px;
+/* استایل کاستوم چک‌باکس */
+.ProseMirror input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid var(--border);
+  border-radius: 4px;
   cursor: pointer;
-  accent-color: var(--primary);
+  margin-top: 0.25rem;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
 }
-.ProseMirror .task-list > li p {
-  margin: 0;
+
+/* وضعیت چک شده (چک‌باکس) */
+.ProseMirror input[type="checkbox"]:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
 }
-.ProseMirror .task-list li[data-state="checked"] p,
-.ProseMirror .task-list li.is-checked p,
-.ProseMirror .task-list li .line-through {
-  text-decoration: line-through;
-  opacity: 0.7;
+
+.ProseMirror input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: bold;
 }
+
+/* وضعیت تسک انجام شده (متن) */
+.ProseMirror ul[data-type="taskList"] li[data-checked="true"] p,
+.ProseMirror ul[data-type="taskList"] li.is-checked p {
+  position: relative;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+/* خط مدادی نازک و کمرنگ روی متن */
+.ProseMirror ul[data-type="taskList"] li[data-checked="true"] p::after,
+.ProseMirror ul[data-type="taskList"] li.is-checked p::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 2px; /* نازک */
+  background: currentColor; /* همرنگ متن برای هماهنگی بیشتر */
+  opacity: 0.5; /* کمرنگ */
+  transform-origin: left;
+  transform: scaleX(1);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
 /* =============================================================
    Blockquote
    ============================================================= */

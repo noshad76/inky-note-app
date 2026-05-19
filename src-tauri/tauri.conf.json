@@ -46,6 +46,7 @@
       }
     },
     "android": {
+      "autoIncrementVersionCode": true,
       "debugApplicationIdSuffix": ".debug"
     }
   }
