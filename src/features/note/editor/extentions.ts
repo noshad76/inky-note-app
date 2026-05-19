@@ -35,6 +35,8 @@ export const EditorExtensions = (placeholderText: string) => [
 
   Placeholder.configure({
     placeholder: placeholderText,
+    emptyEditorClass: "is-editor-empty",
+    showOnlyWhenEditable: true,
   }),
 
   CodeBlockLowlight.configure({

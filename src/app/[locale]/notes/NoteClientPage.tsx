@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import { debounce } from "lodash-es";
 import Editor from "@/features/note/editor/Editor";
 import EditorTitle from "@/features/note/editor/EditorTitle";
@@ -11,27 +11,12 @@ import { scheduleSync } from "@/features/note/utils/syncScheduler";
 export default function Page({ noteId }: { noteId: string }) {
   const { activeNote, updateActiveNote, isLoading, selectNote } = useNotes();
   const { triggerSync } = useSyncNotes();
+
   useEffect(() => {
     if (noteId) {
       selectNote(noteId);
     }
   }, [noteId, selectNote]);
-  if (!noteId || noteId === "index") {
-    return <div></div>;
-  }
-  const [noteData, setNoteData] = useState<{ title: string; content: any }>({
-    title: "",
-    content: null,
-  });
-
-  useEffect(() => {
-    if (activeNote && activeNote.id === noteId) {
-      setNoteData({
-        title: activeNote.title || "",
-        content: activeNote.content,
-      });
-    }
-  }, [activeNote, noteId]);
 
   const debouncedSave = useMemo(
     () =>
@@ -44,30 +29,40 @@ export default function Page({ noteId }: { noteId: string }) {
         },
         1000,
       ),
-    [updateActiveNote],
+    [updateActiveNote, triggerSync],
   );
+
+  useEffect(() => {
+    return () => {
+      debouncedSave.cancel();
+    };
+  }, [debouncedSave]);
 
   const handleTitleChange = useCallback(
     (newTitle: string) => {
-      setNoteData((prev) => ({ ...prev, title: newTitle }));
+      if (!activeNote) return;
       debouncedSave(noteId, { title: newTitle });
     },
-    [debouncedSave, noteId],
+    [debouncedSave, noteId, activeNote],
   );
 
   const handleContentChange = useCallback(
     (newContent: any) => {
-      setNoteData((prev) => ({ ...prev, content: newContent }));
+      if (!activeNote) return;
       debouncedSave(noteId, { content: newContent });
     },
-    [debouncedSave, noteId],
+    [debouncedSave, noteId, activeNote],
   );
+
+  if (noteId === "index") {
+    return <div></div>;
+  }
 
   if (isLoading || (activeNote && activeNote.id !== noteId)) {
     return <div className="h-full w-full bg-transparent" />;
   }
 
-  if (!activeNote && !isLoading) {
+  if (!activeNote) {
     return (
       <div className="p-10 text-center text-muted-foreground">
         یادداشت مورد نظر یافت نشد.
@@ -78,10 +73,10 @@ export default function Page({ noteId }: { noteId: string }) {
   return (
     <div className="flex flex-col h-full min-h-0 pt-10">
       <div key={noteId} className="flex flex-col h-full">
-        <EditorTitle value={noteData.title} onChange={handleTitleChange} />
+        <EditorTitle value={activeNote.title} onChange={handleTitleChange} />
 
         <div className="flex-1 min-h-0">
-          <Editor content={noteData.content} onChange={handleContentChange} />
+          <Editor content={activeNote.content} onChange={handleContentChange} />
         </div>
       </div>
     </div>

@@ -48,14 +48,15 @@
   padding-bottom: 80px !important;
 
   /* حذف inherit های قبلی */
-  direction: ltr; /* مقدار پیش‌فرض ادیتور لزوماً LTR باشد */
+  /* direction: ltr; مقدار پیش‌فرض ادیتور لزوماً LTR باشد */
+  direction: auto;
+
   text-align: start;
 }
 
 /* این بخش که باعث خراب شدن کار می‌شد را اصلاح کردیم */
 .ProseMirror > * {
   /* اجازه بدهید هر پاراگراف جهت خودش را داشته باشد */
-  direction: auto;
   text-align: start;
   unicode-bidi: plaintext; /* این خط جادوی حل مشکل متن‌های ترکیبی است */
 }
@@ -292,12 +293,14 @@ mark {
 /* =============================================================
    Placeholder
    ============================================================= */
-
-.ProseMirror p.is-editor-empty:first-child::before {
+.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   color: var(--text-muted);
   pointer-events: none;
-  display: inline-block;
+  height: 0;
+
+  direction: rtl;
+  text-align: right;
 }
 
 /* =============================================================

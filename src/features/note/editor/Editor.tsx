@@ -1,12 +1,13 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { EditorExtensions } from "./extentions";
 import EditorToolbar from "./EditorToolbar";
 import EditorBubbleMenu from "./EditorBubbleMenu";
 import MobileToolbar from "./MobileToolbar";
 import { useTranslations } from "next-intl";
+
 interface EditorProps {
   content?: any;
   onChange?: (content: any) => void;
@@ -14,6 +15,7 @@ interface EditorProps {
 
 export default function Editor({ content, onChange }: EditorProps) {
   const t = useTranslations("editor");
+  const isUpdatingFromPropRef = useRef(false);
 
   const editor = useEditor({
     extensions: EditorExtensions(t("ContentPlaceholder")),
@@ -34,7 +36,14 @@ export default function Editor({ content, onChange }: EditorProps) {
     },
 
     onUpdate({ editor }) {
+      // Skip onChange if we're updating from prop
+      if (isUpdatingFromPropRef.current) {
+        console.log("⏭️ Skipping onChange - updating from prop");
+        return;
+      }
+
       const json = editor.getJSON();
+      console.log("✏️ Editor onUpdate - user edit");
 
       if (onChange) {
         onChange(json);
@@ -49,7 +58,14 @@ export default function Editor({ content, onChange }: EditorProps) {
     const current = editor.getJSON();
 
     if (JSON.stringify(current) !== JSON.stringify(content)) {
+      console.log("📝 Editor: setting content from prop");
+      isUpdatingFromPropRef.current = true;
       editor.commands.setContent(content);
+
+      // Reset flag after a short delay
+      setTimeout(() => {
+        isUpdatingFromPropRef.current = false;
+      }, 50);
     }
   }, [content, editor]);
 

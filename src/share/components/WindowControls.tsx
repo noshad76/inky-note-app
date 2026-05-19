@@ -1,74 +1,121 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getCurrentWindow } from "@tauri-apps/api/window";
-import { X, Minus, Maximize2, ShrinkIcon } from "lucide-react";
-
-const appWindow = getCurrentWindow();
+import { X } from "lucide-react";
 
 export function WindowControls() {
+  const [appWindow, setAppWindow] = useState<any>(null);
   const [isMaximized, setIsMaximized] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isTauri, setIsTauri] = useState(false);
 
   useEffect(() => {
-    const updateStatus = async () => {
-      const maximized = await appWindow.isMaximized();
-      setIsMaximized(maximized);
+    const initTauri = async () => {
+      // بررسی دقیق تر محیط Tauri
+      const isRunningInTauri =
+        typeof window !== "undefined" &&
+        (window as any).__TAURI_INTERNALS__ !== undefined;
+
+      if (isRunningInTauri) {
+        setIsTauri(true);
+        try {
+          const { getCurrentWindow } = await import("@tauri-apps/api/window");
+          const win = getCurrentWindow();
+          setAppWindow(win);
+
+          // گرفتن وضعیت اولیه
+          const maximized = await win.isMaximized();
+          setIsMaximized(maximized);
+
+          // در Tauri v2 تابع listen به این شکل عمل می‌کند
+          const unlisten = await win.onResized(async () => {
+            const status = await win.isMaximized();
+            setIsMaximized(status);
+          });
+
+          return unlisten;
+        } catch (error) {
+          console.error("Tauri API Error:", error);
+        }
+      } else {
+        // اگر در مرورگر عادی هستیم (برای دیباگ)
+        console.log("Running in browser, window controls disabled.");
+        setIsTauri(false);
+      }
     };
 
-    updateStatus();
-    const unlisten = appWindow.onResized(() => updateStatus());
+    const unlistenPromise = initTauri();
+
     return () => {
-      unlisten.then((u) => u());
+      unlistenPromise.then((unlisten) => {
+        if (typeof unlisten === "function") unlisten();
+      });
     };
   }, []);
 
   const handleAction = async (e: React.MouseEvent, action: string) => {
     e.stopPropagation();
-    if (action === "close") await appWindow.close();
-    else if (action === "minimize") await appWindow.minimize();
-    else if (action === "maximize") await appWindow.toggleMaximize();
+    if (!appWindow) return;
+
+    try {
+      if (action === "close") await appWindow.close();
+      else if (action === "minimize") await appWindow.minimize();
+      else if (action === "maximize") {
+        await appWindow.toggleMaximize();
+      }
+    } catch (err) {
+      console.error("Action error:", err);
+    }
   };
 
+  // اگر در محیط تائوری نباشیم، کلا چیزی رندر نشود (یا دکمه‌های غیرفعال)
+  if (!isTauri && typeof window !== "undefined") {
+    return null;
+  }
+
+  // نمایش اسکلتون فقط تا زمانی که appWindow در محیط تائوری لود شود
+  if (!appWindow && isTauri) {
+    return (
+      <div className="flex items-center gap-1 px-3 h-full mr-2 pr-2">
+        <div className="w-8 h-8 rounded-lg bg-surface-muted/20 animate-pulse" />
+        <div className="w-8 h-8 rounded-lg bg-surface-muted/20 animate-pulse" />
+        <div className="w-8 h-8 rounded-lg bg-surface-muted/20 animate-pulse" />
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="flex items-center gap-2.5 px-4 h-full pointer-events-auto"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Minimize - Yellow */}
+    <div className="flex items-center gap-1 px-3 h-full select-none mr-2 pr-2">
+      {/* Minimize */}
       <button
         onClick={(e) => handleAction(e, "minimize")}
-        className="w-3.5 h-3.5 rounded-full bg-[#febc2e] border border-[#d8a027] flex items-center justify-center transition-all active:opacity-70"
+        className="group relative flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 hover:bg-white/5 active:scale-90"
       >
-        <Minus
-          size={10}
-          className={`text-black/60 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}
-          strokeWidth={4}
+        <div className="w-4 h-[2px] bg-white/40 group-hover:bg-amber-500 transition-all duration-300 rounded-full" />
+      </button>
+
+      {/* Maximize / Restore */}
+      <button
+        onClick={(e) => handleAction(e, "maximize")}
+        className="group relative flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 hover:bg-white/5 active:scale-90"
+      >
+        <div
+          className={`border-2 transition-all duration-300 rounded-[4px]
+          ${
+            isMaximized
+              ? "w-3 h-3 border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"
+              : "w-3.5 h-3.5 border-white/40 group-hover:border-emerald-500"
+          }`}
         />
       </button>
 
-      {/* Maximize/Restore - Green */}
-      <button
-        onClick={(e) => handleAction(e, "maximize")}
-        className="w-3.5 h-3.5 rounded-full bg-[#28c840] border border-[#21a835] flex items-center justify-center transition-all active:opacity-70"
-      >
-        <div
-          className={`text-black/60 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}
-        >
-          <Maximize2 size={8} strokeWidth={4} />
-        </div>
-      </button>
-
-      {/* Close - Red */}
+      {/* Close */}
       <button
         onClick={(e) => handleAction(e, "close")}
-        className="w-3.5 h-3.5 rounded-full bg-[#ff5f57] border border-[#e14942] flex items-center justify-center transition-all active:opacity-70"
+        className="group relative flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 hover:bg-red-500/20 active:scale-90"
       >
         <X
-          size={10}
-          className={`text-black/60 transition-opacity ${isHovered ? "opacity-100" : "opacity-0"}`}
-          strokeWidth={4}
+          size={18}
+          className="text-white/40 group-hover:text-red-500 transition-all duration-500"
         />
       </button>
     </div>

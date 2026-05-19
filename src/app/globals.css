@@ -1,6 +1,25 @@
 @import "tailwindcss";
 @import "../features/note/editor/editor.css";
+@font-face {
+  font-family: "Vazir";
+  src: url("/fonts/Vazir-FD-WOL.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
 
+@font-face {
+  font-family: "Handlee";
+  src: url("/fonts/Handlee-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF, U+2000-206F,
+    U+20A0-20CF, U+2100-214F;
+}
 :root {
   --bg: #f8f8f7;
   --surface: #ffffff;
@@ -63,16 +82,16 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1);
 
-  --font-sans: var(--font-patrick), var(--font-vazir), ui-sans-serif, system-ui;
-  --font-hand: var(--font-patrick), var(--font-vazir), cursive;
-  --font-editor: var(--font-patrick), var(--font-vazir);
+  --font-sans: "Handlee", "Vazir", ui-sans-serif, system-ui;
+  --font-hand: "Handlee", "Vazir", cursive;
+  --font-editor: "Handlee", "Vazir";
   --sidebar-width: 280px;
   --editor-width: 720px;
 }
 
 @layer base {
   body {
-    font-family: var(--font-patrick), var(--font-vazir) !important;
+    font-family: "Handlee", "Vazir", ui-sans-serif, system-ui;
     background-color: var(--bg);
     color: var(--text);
     @apply select-none cursor-default;
@@ -93,7 +112,14 @@
 
 [data-tauri-drag-region] {
 }
-
+* {
+  spellcheck: false;
+}
+[contenteditable],
+input,
+textarea {
+  spellcheck: false;
+}
 @utility text-display {
   font-family: var(--font-hand);
   font-size: 2.5rem;
@@ -184,21 +210,11 @@
   width: var(--sidebar-width);
 }
 
-html[dir="rtl"] {
-  font-family: var(--font-vazir);
-}
-
-html[dir="ltr"] {
-  font-family: var(--font-patrick);
-}
-
-:lang(en) {
-  font-family: var(--font-patrick), var(--font-vazir), cursive;
-}
-
-:lang(fa) {
-  font-family: var(--font-vazir), var(--font-patrick), sans-serif;
-}
+/* حذف کامل این قوانین که باعث override شدن unicode-range می‌شدند */
+/* html[dir="rtl"] { ... } */
+/* html[dir="ltr"] { ... } */
+/* :lang(en) { ... } */
+/* :lang(fa) { ... } */
 
 ::-webkit-scrollbar {
   width: 8px;
