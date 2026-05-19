@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { Plus, Settings, ChevronRight } from "lucide-react";
 import { useNotes } from "@/features/note/hooks/useNotes";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -25,7 +25,8 @@ export default function SidebarList() {
   const router = useRouter();
   const params = useParams();
   const t = useTranslations("sidebar");
-
+  const searchParams = useSearchParams();
+  const noteIdFromQuery = searchParams.get("id");
   const [isCreating, setIsCreating] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
 
@@ -51,10 +52,12 @@ export default function SidebarList() {
 
     try {
       await deleteNote(idToRemove);
-      if (params.id === idToRemove) {
+
+      if (noteIdFromQuery === idToRemove) {
         selectNote(null);
         router.replace(ROUTES.NOTES.ROOT);
       }
+
       triggerSync();
     } catch (error) {
       console.error("Failed to delete note:", error);

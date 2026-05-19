@@ -63,11 +63,7 @@ export default function Page({ noteId }: { noteId: string }) {
   }
 
   if (!activeNote) {
-    return (
-      <div className="p-10 text-center text-muted-foreground">
-        یادداشت مورد نظر یافت نشد.
-      </div>
-    );
+    return <div className=""></div>;
   }
 
   return (
