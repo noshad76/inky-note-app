@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, Suspense } from "react"; // اضافه کردن Suspense
+import { ReactNode, Suspense, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const Header = dynamic(() => import("@/features/note/components/Header"), {
   ssr: false,
@@ -9,10 +9,22 @@ import SidebarList from "@/features/note/components/SidebarList";
 import { cn } from "@/lib/utils/cn";
 import { useSearchParams } from "next/navigation";
 
-// ایجاد یک کامپوننت داخلی برای استفاده از searchParams
 function NotesLayoutContent({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const isEditing = !!searchParams.get("id");
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!e.matches) {
+        setSidebarCollapsed(false);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   return (
     <div className="flex h-screen flex-col bg-bg text-text transition-colors duration-300">
@@ -23,11 +35,17 @@ function NotesLayoutContent({ children }: { children: ReactNode }) {
             "flex-col border-border bg-surface shadow-sm transition-all duration-300",
             "md:rounded-lg overflow-hidden md:border",
             isEditing
-              ? "hidden md:flex md:w-80"
-              : "flex w-full md:w-80 border-r md:border-r",
+              ? cn("hidden md:flex", sidebarCollapsed ? "md:w-12" : "md:w-80")
+              : cn(
+                  "flex w-full border-r md:border-r",
+                  sidebarCollapsed ? "md:w-12" : "md:w-80",
+                ),
           )}
         >
-          <SidebarList />
+          <SidebarList
+            isCollapsed={sidebarCollapsed}
+            onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
+          />
         </aside>
 
         <main
@@ -44,7 +62,6 @@ function NotesLayoutContent({ children }: { children: ReactNode }) {
   );
 }
 
-// کامپوننت اصلی که Suspense را فراهم می‌کند
 export default function NotesLayout({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={<div className="h-screen bg-bg" />}>

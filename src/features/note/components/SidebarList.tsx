@@ -1,17 +1,32 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { Plus, Settings, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  Plus,
+  Settings,
+  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react";
 import { useNotes } from "@/features/note/hooks/useNotes";
 import { Link, useRouter } from "@/i18n/navigation";
-import { NoteItem } from "./NoteItem";
+import { NoteItem, getNoteTitle } from "./NoteItem";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { useTranslations } from "next-intl";
 import { ROUTES } from "@/lib/constants/routes";
 import { useSyncNotes } from "../hooks/useSyncNotes";
-import { LocalNote } from "../types/notes"; //
+import { LocalNote } from "../types/notes";
+import { cn } from "@/lib/utils/cn";
 
-export default function SidebarList() {
+interface SidebarListProps {
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
+}
+
+export default function SidebarList({
+  isCollapsed,
+  onToggleCollapse,
+}: SidebarListProps) {
   const {
     notes: localNotes,
     activeNoteId,
@@ -23,7 +38,6 @@ export default function SidebarList() {
 
   const { triggerSync } = useSyncNotes();
   const router = useRouter();
-  const params = useParams();
   const t = useTranslations("sidebar");
   const searchParams = useSearchParams();
   const noteIdFromQuery = searchParams.get("id");
@@ -49,15 +63,12 @@ export default function SidebarList() {
     if (!noteToDelete) return;
     const idToRemove = noteToDelete;
     setNoteToDelete(null);
-
     try {
       await deleteNote(idToRemove);
-
       if (noteIdFromQuery === idToRemove) {
         selectNote(null);
         router.replace(ROUTES.NOTES.ROOT);
       }
-
       triggerSync();
     } catch (error) {
       console.error("Failed to delete note:", error);
@@ -75,25 +86,102 @@ export default function SidebarList() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleCreateNote]);
 
+  // حالت collapsed
+  if (isCollapsed) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-between py-5">
+        {/* بالا: دکمه expand + دکمه new note */}
+        <div className="flex flex-col items-center gap-3">
+          <button
+            onClick={onToggleCollapse}
+            title="Expand sidebar"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-soft bg-surface text-text-muted hover:text-primary hover:bg-primary/5 transition-all shadow-sm"
+          >
+            <PanelLeftOpen size={15} />
+          </button>
+
+          <button
+            onClick={handleCreateNote}
+            disabled={isCreating || isLoading}
+            title={t("newNote")}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-soft bg-surface text-primary hover:bg-primary/5 transition-all shadow-sm disabled:opacity-50"
+          >
+            <Plus
+              size={15}
+              strokeWidth={2.5}
+              className={isCreating ? "animate-spin" : ""}
+            />
+          </button>
+        </div>
+
+        {/* وسط: لیست نوت‌ها با حرف اول */}
+        <div className="flex flex-1 flex-col items-center gap-1.5 overflow-y-auto py-3 custom-scrollbar w-full px-1">
+          {localNotes.map((note: LocalNote) => {
+            const title = getNoteTitle(note);
+            const firstChar = title.charAt(0).toUpperCase();
+            const isActive = activeNoteId === note.id;
+
+            return (
+              <Link
+                key={note.id}
+                href={ROUTES.NOTES.DETAIL(note.id)}
+                onClick={() => selectNote(note.id)}
+                title={title}
+                className={cn(
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border text-xs font-bold transition-all",
+                  isActive
+                    ? "bg-primary/10 border-primary text-primary"
+                    : "border-border-soft bg-surface text-text-muted hover:text-primary hover:bg-primary/5",
+                )}
+              >
+                {firstChar}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* پایین: دکمه settings */}
+        <Link
+          href={ROUTES.NOTES.SETTINGS}
+          title={t("settings")}
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-soft bg-surface text-text-muted hover:text-primary hover:bg-primary/5 transition-all shadow-sm"
+        >
+          <Settings size={15} />
+        </Link>
+      </div>
+    );
+  }
+
+  // حالت expanded (بدون تغییر)
   return (
     <div className="flex h-full flex-col bg-bg px-3 py-5">
-      <button
-        onClick={handleCreateNote}
-        disabled={isCreating || isLoading}
-        className="mb-6 flex h-11 items-center justify-between rounded-lg bg-surface px-3 text-primary shadow-sm border border-border-soft hover:bg-primary/5 transition-all disabled:opacity-50"
-      >
-        <div className="flex items-center gap-2.5">
-          <Plus
-            size={18}
-            strokeWidth={2.5}
-            className={isCreating ? "animate-spin" : ""}
-          />
-          <span className="font-bold text-xs">{t("newNote")}</span>
-        </div>
-        <kbd className="text-caption opacity-50 font-sans text-[10px]">
-          {t("shortcutHint") || "Ctrl+B"}
-        </kbd>
-      </button>
+      <div className="mb-6 flex items-center gap-2">
+        <button
+          onClick={handleCreateNote}
+          disabled={isCreating || isLoading}
+          className="flex-1 flex h-11 items-center justify-between rounded-lg bg-surface px-3 text-primary shadow-sm border border-border-soft hover:bg-primary/5 transition-all disabled:opacity-50"
+        >
+          <div className="flex items-center gap-2.5">
+            <Plus
+              size={18}
+              strokeWidth={2.5}
+              className={isCreating ? "animate-spin" : ""}
+            />
+            <span className="font-bold text-xs">{t("newNote")}</span>
+          </div>
+          <kbd className="text-caption opacity-50 font-sans text-[10px]">
+            {t("shortcutHint") || "Ctrl+B"}
+          </kbd>
+        </button>
+
+        <button
+          onClick={onToggleCollapse}
+          title="Collapse sidebar"
+          className="flex h-11 w-9 shrink-0 items-center justify-center rounded-lg border border-border-soft bg-surface text-text-muted hover:text-primary hover:bg-primary/5 transition-all shadow-sm"
+        >
+          <PanelLeftClose size={15} />
+        </button>
+      </div>
 
       <div className="flex-1 overflow-y-auto space-y-0.5 custom-scrollbar">
         {isLoading ? (
