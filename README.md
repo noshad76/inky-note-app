@@ -158,4 +158,4 @@ Contributions are welcome. Please keep changes focused and consistent with the e
 
 ## License
 
-No license file is currently included. Add a license before distributing or using this project in production.
+This project is licensed under the MIT License. See `LICENSE` for details.
